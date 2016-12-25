@@ -28,3 +28,9 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+config :esx, ESx.Model,
+  protocol: "http",
+  host: "localhost",
+  port: 9200,
+  trace: true
