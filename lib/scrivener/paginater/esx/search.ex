@@ -1,6 +1,5 @@
 defimpl Scrivener.Paginater, for: ESx.Model.Search do
   alias Scrivener.{Config, Page}
-  import Access
 
   @moduledoc false
 
@@ -58,6 +57,21 @@ defimpl Scrivener.Paginater, for: ESx.Model.Search do
       pos when pos > 0 ->
         t + 1
       _ -> t
+    end
+  end
+
+  # For elixir 1.2
+  # https://github.com/elixir-lang/elixir/blob/146f14ff6966e5bb5e85ea0ad61b959aeee91f7f/lib/elixir/lib/access.ex#L400
+  defp key(key, default \\ nil) do
+    fn
+      :get, data, next ->
+        next.(Map.get(data, key, default))
+      :get_and_update, data, next ->
+        value = Map.get(data, key, default)
+        case next.(value) do
+          {get, update} -> {get, Map.put(data, key, update)}
+          :pop -> {value, Map.delete(data, key)}
+        end
     end
   end
 
