@@ -1,5 +1,11 @@
 # Scrivener.ESx
 
+[![Build Status](http://img.shields.io/travis/ikeikeikeike/scrivener_esx.svg?style=flat-square)](http://travis-ci.org/ikeikeikeike/scrivener_esx)
+[![Hex version](https://img.shields.io/hexpm/v/scrivener_esx.svg "Hex version")](https://hex.pm/packages/scrivener_esx)
+[![Inline docs](https://inch-ci.org/github/ikeikeikeike/scrivener_esx.svg)](http://inch-ci.org/github/ikeikeikeike/scrivener_esx)
+[![Lisence](https://img.shields.io/hexpm/l/ltsv.svg)](https://github.com/ikeikeikeike/scrivener_esx/blob/master/LICENSE)
+
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
