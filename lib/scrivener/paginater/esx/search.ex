@@ -1,14 +1,32 @@
 defimpl Scrivener.Paginater, for: ESx.Model.Search do
-  alias Scrivener.{Config, Page}
-
   @moduledoc false
 
-  @spec paginate(ESx.Model.Search.t, Scrivener.Config.t) :: Scrivener.Page.t
+  defmodule Page do
+    @moduledoc false
+
+    defstruct [:entries, :page_number, :page_size, :total_entries, :total_pages, :expand]
+
+    @type t :: %__MODULE__{}
+
+    defimpl Enumerable, for: Page do
+      def count(_page), do: {:error, __MODULE__}
+
+      def member?(_page, _value), do: {:error, __MODULE__}
+
+      def reduce(%Page{entries: entries}, acc, fun) do
+        Enumerable.reduce(entries, acc, fun)
+      end
+    end
+  end
+
+  alias Scrivener.Config
+
+  @spec paginate(ESx.Model.Search.t, Scrivener.Config.t) :: Page.t
   def paginate(search, %Config{page_size: page_size, page_number: page_number, module: model}) do
     model = Map.get search, :__model__, model
     search = pager_condition(search, page_number, page_size)
 
-    {entries, total_entries} =
+    {rsp, entries, total_entries} =
       if model.repo do
         rsp = model.records search
         {rsp.records, rsp.total}
@@ -18,6 +36,7 @@ defimpl Scrivener.Paginater, for: ESx.Model.Search do
       end
 
     %Page{
+      expand: rsp,
       page_size: page_size,
       page_number: page_number,
       entries: entries,
