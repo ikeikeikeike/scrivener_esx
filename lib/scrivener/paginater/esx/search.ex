@@ -26,13 +26,13 @@ defimpl Scrivener.Paginater, for: ESx.Model.Search do
     model = Map.get search, :__model__, model
     search = pager_condition(search, page_number, page_size)
 
-    {rsp, entries, total_entries} =
+    {rsp, entries} =
       if model.repo do
         rsp = model.records search
-        {rsp.records, rsp.total}
+        {rsp, rsp.records}
       else
         rsp = model.results search
-        {rsp.hits, rsp.total}
+        {rsp, rsp.hits}
       end
 
     %Page{
@@ -40,8 +40,8 @@ defimpl Scrivener.Paginater, for: ESx.Model.Search do
       page_size: page_size,
       page_number: page_number,
       entries: entries,
-      total_entries: total_entries,
-      total_pages: total_pages(total_entries, page_size)
+      total_entries: rsp.total,
+      total_pages: total_pages(rsp.total, page_size)
     }
   end
 
