@@ -7,7 +7,7 @@ defmodule Scrivener.ESx.Mixfile do
 
   def project do
     [app: :scrivener_esx,
-     version: "0.2.0",
+     version: "0.2.1",
      elixir: ">= 1.2.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -39,7 +39,7 @@ defmodule Scrivener.ESx.Mixfile do
 
       {:earmark, ">= 0.0.0", only: :dev},
       {:ex_doc, "~> 0.10", only: :dev},
-      {:inch_ex, only: :docs},
+      {:inch_ex, ">= 0.0.0", only: :docs},
     ]
   end
 
