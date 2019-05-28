@@ -4,13 +4,17 @@ defimpl Scrivener.Paginater, for: ESx.Model.Search do
   @moduledoc false
 
   @spec paginate(ESx.Model.Search.t, Scrivener.Config.t) :: Scrivener.Page.t
-  def paginate(search, %Config{page_size: page_size, page_number: page_number, module: model}) do
-    model = Map.get search, :__model__, model
+  def paginate(search, %Config{page_size: page_size, page_number: page_number, module: model} = config) do
+    model = Map.get(search, :__model__, model)
+    opts = Map.get(config, :options, [])
     search = pager_condition(search, page_number, page_size)
+
+    schema = Map.fetch(search, :__schema__)
+    queryable = Keyword.get(opts, :queryable, schema)
 
     {entries, total_entries} =
       if model.repo do
-        rsp = model.records search
+        rsp = model.records search, queryable
         {rsp.records, rsp.total["value"]}
       else
         rsp = model.results search
