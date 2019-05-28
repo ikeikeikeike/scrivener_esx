@@ -11,7 +11,7 @@ defimpl Scrivener.Paginater, for: ESx.Model.Search do
     {entries, total_entries} =
       if model.repo do
         rsp = model.records search
-        {rsp.records, rsp.total}
+        {rsp.records, rsp.total["value"]}
       else
         rsp = model.results search
         {rsp.hits, rsp.total["value"]}
