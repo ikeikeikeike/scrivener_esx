@@ -9,7 +9,7 @@ defimpl Scrivener.Paginater, for: ESx.Model.Search do
     opts = Map.get(config, :options, [])
     search = pager_condition(search, page_number, page_size)
 
-    schema = Map.fetch(search, :__schema__)
+    schema = Map.get(search, :__schema__)
     queryable = Keyword.get(opts, :queryable, schema)
 
     {entries, total_entries} =
